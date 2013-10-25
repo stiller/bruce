@@ -27,11 +27,13 @@ describe RandomBanner do
     @banners = Hash[banner_names.zip(banner_weights)]
   end
 
-  it 'picks a number of banners randomly, given a set of banners' do
-    random_banners = RandomBanner.new(@banners).pick(5)
-    random_banners.size.must_equal 5
-    random_banners.combination(2).each do |first, second|
-      first.name.wont_equal second.name # we are not expecting repetition
-    end
+  it 'picks the right amount of banners' do
+    RandomBanner.new(@banners).pick(3).size.must_equal 3
+    RandomBanner.new(@banners).pick(10).size.must_equal 10
+  end
+
+  it 'picks 11 different banners' do
+    random_banners = RandomBanner.new(@banners).pick(11)
+    random_banners.map(&:name).uniq.size.must_equal 11
   end
 end
