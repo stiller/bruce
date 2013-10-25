@@ -1,0 +1,2 @@
+- WeightedBanner currently employs a naive and memory hungry algorithm. Can be
+  replaced with interval-based picker.
