@@ -18,15 +18,38 @@ class RandomBanner
   end
 
   def pick number
-    @banners.sample(number)
+    banners(number).sample(number)
+  end
+
+  def banners number
+    more_banners = @banners
+    while more_banners.count < number do
+      more_banners += @banners
+    end
+    more_banners
   end
 end
 
 class WeightedBanner < RandomBanner
   def pick number
     pick_list = []
-    @banners.each { |banner| banner.weight.times { pick_list << banner } }
+    banners(number).each { |banner| banner.weight.times { pick_list << banner } }
     pick_list.sample(number)
+  end
+end
+
+class ListGenerator
+  def initialize gen_a, gen_b, ratio_a, ratio_b
+    gcd = ratio_a.gcd(ratio_b)
+    @ratio_a = ratio_a / gcd
+    @ratio_b = ratio_b / gcd
+    @gen_a = gen_a
+    @gen_b = gen_b
+  end
+
+  def pick number
+    mult = number / (@ratio_a + @ratio_b)
+    @gen_a.pick(mult * @ratio_a) + @gen_b.pick(mult * @ratio_b)
   end
 end
 
@@ -60,5 +83,16 @@ describe RandomBanner do
       random_banners = WeightedBanner.new(@banners).pick(2)
       refute random_banners.find{ |rb| rb.name == 'red' }
     end
+  end
+end
+
+describe ListGenerator do
+  it 'combines the results of two random generators' do
+    random_banners = {'random'=> 1}
+    weighted_banners = {'weighted' => 1}
+    list = ListGenerator.new(RandomBanner.new(random_banners),
+                             WeightedBanner.new(weighted_banners),3,7)
+    list.pick(10).find_all{ |banner| banner.name == 'weighted' }.count.must_equal 7
+    list.pick(10).find_all{ |banner| banner.name == 'random' }.count.must_equal 3
   end
 end
