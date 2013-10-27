@@ -1,0 +1,9 @@
+---
+:orm: activerecord
+:test: minitest
+:mock: none
+:script: none
+:renderer: slim
+:stylesheet: none
+:namespace: Bruce
+:migration_format: number
