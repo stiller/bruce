@@ -16,7 +16,7 @@
 ActiveRecord::Base.configurations[:development] = {
   :adapter   => 'postgresql',
   :database  => 'bruce_development',
-  :username  => 'root',
+  :username  => 'joachim',
   :password  => '',
   :host      => 'localhost',
   :port      => 5432
@@ -36,7 +36,7 @@ ActiveRecord::Base.configurations[:production] = {
 ActiveRecord::Base.configurations[:test] = {
   :adapter   => 'postgresql',
   :database  => 'bruce_test',
-  :username  => 'root',
+  :username  => 'joachim',
   :password  => '',
   :host      => 'localhost',
   :port      => 5432
