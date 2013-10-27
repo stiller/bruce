@@ -1,4 +1,4 @@
-require 'minitest/spec'
+require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 require_relative '../../bruce.rb'
 
 describe RandomBanner do
