@@ -1,2 +1,4 @@
 - WeightedBanner currently employs a naive and memory hungry algorithm. Can be
   replaced with interval-based picker.
+- Add a method which will check the last ad served to a client and pick
+  another.
