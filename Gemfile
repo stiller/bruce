@@ -27,6 +27,7 @@ gem 'rack-test', :require => 'rack/test', :group => 'test'
 gem 'padrino', '0.11.4'
 gem 'pry'
 gem 'tux'
+gem 'redis'
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 
