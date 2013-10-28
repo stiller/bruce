@@ -28,6 +28,7 @@ gem 'padrino', '0.11.4'
 gem 'pry'
 gem 'tux'
 gem 'redis'
+gem 'unicorn'
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 
