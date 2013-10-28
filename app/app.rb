@@ -23,7 +23,7 @@
         redis.set("banners",@list.to_json)
         redis.expire("banners",10)
       end
-      @list.sample.name
+      render :erb, "<img src='<%= @list.sample.name %>'>"
     end
 
   end
