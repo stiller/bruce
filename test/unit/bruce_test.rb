@@ -40,9 +40,9 @@ module Bruce
       random_banners = {'random'=> 1}
       weighted_banners = {'weighted' => 1}
       list = ListGenerator.new(RandomBanner.new(random_banners),
-                               WeightedBanner.new(weighted_banners),3,7)
-      list.pick(10).find_all{ |banner| banner.name == 'weighted' }.count.must_equal 7
-      list.pick(10).find_all{ |banner| banner.name == 'random' }.count.must_equal 3
+                               WeightedBanner.new(weighted_banners),30,70)
+      list.pick(15).find_all{ |banner| banner.name == 'random' }.count.must_equal 5
+      list.pick(15).find_all{ |banner| banner.name == 'weighted' }.count.must_equal 10
     end
   end
 end

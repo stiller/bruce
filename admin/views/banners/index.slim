@@ -37,7 +37,8 @@ div class="tabs-content"
         tr class='list-row'
           td class='list-column list-selectable' = check_box_tag 'banner_ids[]', :value => banner.id, :class => 'list-selectable-checkbox'
           td class='list-column' = banner.id
-          td class='list-column' = banner.url
+          td class='list-column'
+            img src= banner.url
           td class='list-column' = banner.weight
           td class='list-column' = time_ago_in_words banner.created_at
           td class='list-column' = time_ago_in_words banner.updated_at

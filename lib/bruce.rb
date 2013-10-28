@@ -46,8 +46,9 @@ module Bruce
     end
 
     def pick number
-      mult = number / (@ratio_a + @ratio_b)
-      @gen_a.pick(mult * @ratio_a) + @gen_b.pick(mult * @ratio_b)
+      mult = Float(number) / (@ratio_a + @ratio_b)
+      result = @gen_a.pick(10).sample((mult * @ratio_a).ceil)
+      result + @gen_b.pick(10).sample((mult * @ratio_b).floor)
     end
   end
 end
