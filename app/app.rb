@@ -17,12 +17,24 @@
         list.to_json
       end
       @list = JSON.parse(@list)
-      @list = @list.map{ |banner| Bruce::Banner.new(banner['name'],banner['weight']) }
-      render :erb, "<img src='<%= @list.sample.name %>'>"
+      @urls = @list.map{ |banner| banner['name'] }
+      @value = get_new_value_for("#{request.ip}", @urls)
+      render :erb, "<img src='<%= @value %>'>"
     end
 
     def redis_key
       "banners"
     end
 
+    def get_new_value_for key, collection
+      new_value = collection.sample
+      unless (old_value = $redis.get(key)).nil? || collection.size < 2
+        while(new_value == old_value) do
+          new_value = collection.sample
+        end
+      end
+      $redis.set(key,new_value)
+      $redis.expire(key,600)
+      new_value
+    end
   end
