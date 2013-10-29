@@ -9,17 +9,15 @@
 
 
     get "/" do
-      @list = $redis.get(redis_key)
-      if @list
-        @list = JSON.parse(@list)
-        @list = @list.map{ |banner| Bruce::Banner.new(banner['name'],banner['weight']) }
-      else
+      @list = $redis.cache(redis_key,10) do
         banners = Banner.all.map{|b| {b.url => b.weight}}.reduce(Hash.new, :merge)
-        @list = Bruce::ListGenerator.new(Bruce::RandomBanner.new(banners),
-                                         Bruce::WeightedBanner.new(banners),3,7).pick(15)
-        $redis.set(redis_key,@list.to_json)
-        $redis.expire(redis_key,10)
+        list = Bruce::ListGenerator.new(Bruce::RandomBanner.new(banners),
+               Bruce::WeightedBanner.new(banners),
+               3,7).pick(15)
+        list.to_json
       end
+      @list = JSON.parse(@list)
+      @list = @list.map{ |banner| Bruce::Banner.new(banner['name'],banner['weight']) }
       render :erb, "<img src='<%= @list.sample.name %>'>"
     end
 
