@@ -9,9 +9,9 @@ describe 'The Bruce App' do
     Banner.delete_all
   end
 
-#  it 'returns an image tag' do
-#    get '/'
-#    assert last_response.ok?
-#    assert last_response.body.include?('img')
-#  end
+  it 'returns an image tag' do
+    get '/'
+    assert last_response.ok?
+    assert last_response.body.include?('img')
+  end
 end

@@ -29,14 +29,18 @@ module Bruce
 
     def get_new_value_for key, collection
       new_value = collection.sample
-      unless (old_value = $redis.get(key)).nil? || collection.size < 2
-        while(new_value == old_value) do
-          new_value = collection.sample
-        end
+      return new_value if single_unique_element_in collection
+
+      if (previous_value = $redis.get(key))
+        new_value = collection.reject{|element| element == previous_value}.sample
       end
       $redis.set(key,new_value)
       $redis.expire(key,600)
       new_value
+    end
+
+    def single_unique_element_in collection
+      Set.new(collection).size < 2
     end
   end
 end
