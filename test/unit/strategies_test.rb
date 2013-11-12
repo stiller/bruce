@@ -1,7 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 require_relative '../../lib/bruce.rb'
 
-module Bruce
+module Strategies
   describe RandomBanner do
     before do
       banner_names = %w(red green blue black purple yellow violet grey orange pink brown)

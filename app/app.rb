@@ -1,3 +1,4 @@
+module Bruce
   class App < Padrino::Application
     use ActiveRecord::ConnectionAdapters::ConnectionManagement
     register Padrino::Rendering
@@ -11,8 +12,8 @@
     get "/" do
       @list = $redis.cache(redis_key,10) do
         banners = Banner.all.map{|b| {b.url => b.weight}}.reduce(Hash.new, :merge)
-        list = Bruce::ListGenerator.new(Bruce::RandomBanner.new(banners),
-               Bruce::WeightedBanner.new(banners),
+        list = Strategies::ListGenerator.new(Strategies::RandomBanner.new(banners),
+               Strategies::WeightedBanner.new(banners),
                3,7).pick(15)
         list.to_json
       end
@@ -38,3 +39,4 @@
       new_value
     end
   end
+end

@@ -1,4 +1,4 @@
-module Bruce
+module Strategies
   class Banner
     attr_reader :name, :weight
 
