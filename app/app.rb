@@ -25,6 +25,8 @@ module Bruce
       render :erb, "<img src='<%= @banner_url %>'>"
     end
 
+    private
+
     def redis_key
       "banners"
     end
