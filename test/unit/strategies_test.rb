@@ -1,5 +1,4 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
-require_relative '../../lib/strategies.rb'
 
 module Strategies
   describe RandomBanner do

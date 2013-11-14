@@ -20,7 +20,7 @@ module Bruce
       list = JSON.parse(list)
       urls = list.map{ |banner| banner['name'] }
       @banner_url = fetch_banner_for request_key
-      @banner_url = get_another_value_for(@banner_url, urls)
+      @banner_url = Frontend.new.get_another_value_for(@banner_url, urls)
       save_banner_for request_key, @banner_url
       render :erb, "<img src='<%= @banner_url %>'>"
     end
@@ -46,16 +46,6 @@ module Bruce
     def save_banner_for key, banner
       $redis.set(key,banner)
       $redis.expire(key,expire_time)
-    end
-
-    def get_another_value_for current_value, collection
-      new_value = collection.sample
-      return new_value if single_unique_element_in collection
-      return collection.reject{|element| element == current_value}.sample
-    end
-
-    def single_unique_element_in collection
-      Set.new(collection).size < 2
     end
   end
 end
