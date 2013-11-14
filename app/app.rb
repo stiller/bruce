@@ -8,7 +8,6 @@ module Bruce
 
     enable :sessions
 
-
     get "/" do
       list = $redis.cache(redis_key,10) do
         banners = Banner.all.map{|b| {b.url => b.weight}}.reduce(Hash.new, :merge)
@@ -20,7 +19,8 @@ module Bruce
       list = JSON.parse(list)
       urls = list.map{ |banner| banner['name'] }
       @banner_url = fetch_banner_for request_key
-      @banner_url = Frontend.new.get_another_value_for(@banner_url, urls)
+      frontend = Frontend.new(urls)
+      @banner_url = frontend.get_another_value_for(@banner_url)
       save_banner_for request_key, @banner_url
       render :erb, "<img src='<%= @banner_url %>'>"
     end
