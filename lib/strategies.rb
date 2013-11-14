@@ -1,9 +1,9 @@
 module Strategies
   class Banner
-    attr_reader :name, :weight
+    attr_reader :url, :weight
 
-    def initialize(name, weight=1)
-      @name = name
+    def initialize(url, weight=1)
+      @url = url
       @weight = weight
     end
   end

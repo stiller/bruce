@@ -31,7 +31,7 @@ Padrino.configure_apps do
   set :protection, true
   set :protect_from_csrf, true
   uri = URI.parse(ENV["REDISTOGO_URL"] || 'redis://localhost:6379')
-  $redis = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
+  $redis = RedisClient.new(:host => uri.host, :port => uri.port, :password => uri.password)
 end
 
 # Mounts the core application for this project
