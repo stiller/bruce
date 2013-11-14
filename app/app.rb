@@ -10,8 +10,8 @@ module Bruce
 
     get "/" do
       banner_hash = $redis.fetch_for(request_key)
-      @banner = BannerFactory.build(banner_hash)
-      @banner = Frontend.new(banners).get_another_value_for(@banner)
+      previous_banner = BannerFactory.build(banner_hash)
+      @banner = Frontend.new(banners).get_another_value_for(previous_banner)
       $redis.save_for(request_key, @banner)
       render :erb, "<img src='<%= @banner.url %>'>"
     end
@@ -19,7 +19,7 @@ module Bruce
     private
 
     def banners
-      bannerlist = $redis.cache(banners_key,10) do
+      bannerlist = $redis.cache(settings.banners_key, settings.expire_time) do
         banners = Banner.all
         first_strategy = Strategies::Random.new(banners)
         second_strategy = Strategies::Weighted.new(banners)
@@ -29,16 +29,8 @@ module Bruce
       bannerlist.map {|banner| BannerFactory.build(banner) }
     end
 
-    def banners_key
-      "banners"
-    end
-
     def request_key
       "#{request.ip}"
-    end
-
-    def expire_time
-      600
     end
   end
 end
