@@ -18,6 +18,8 @@ gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'slim'
 gem 'activerecord', '>= 3.1', :require => 'active_record'
 gem 'pg'
+gem 'redcarpet'
+gem 'erubis'
 
 # Test requirements
 gem 'minitest', '~>2.6.0', :require => 'minitest/autorun', :group => 'test'
