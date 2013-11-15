@@ -34,6 +34,8 @@ module Bruce
     end
 
     access_control.roles_for :admin do |role|
+    role.project_module :banners, '/banners'
+    role.project_module :campaigns, '/campaigns'
     role.project_module :accounts, '/accounts'
     end
 
