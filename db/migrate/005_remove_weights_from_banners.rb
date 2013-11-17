@@ -1,4 +1,4 @@
-csdlass RemoveWeightsFromBanners < ActiveRecord::Migration
+class RemoveWeightsFromBanners < ActiveRecord::Migration
   def self.up
     change_table :banners do |t|
       t.remove :weight

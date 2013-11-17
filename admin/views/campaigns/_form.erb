@@ -30,8 +30,23 @@
     <span class='help-inline'><%= error ? f.error_message_on(:ratio2) : "Ex: a simple text" %></span>
   </div>
 </fieldset>
-<%= f.select :banners, :collection => Banner.all, :fields => [:url, :id], :multiple => true, :selected => (@campaign.banners.collect { |b| b.id } || []) %>
 
+<fieldset>
+<%- f.fields_for :selections do |selection_form| %>
+  <div class='controls'>
+    <%= selection_form.label :banner, :class => 'control-label' %>
+    <%= selection_form.select :banner_id, collection: Banner.all, fields: [:url, :id], :class => 'form-control input-with-feedback' %>
+  </div>
+  <%= selection_form.label :weight, :class => 'control-label' %>
+  <div class='controls'>
+    <%= selection_form.text_field :weight, :class => 'form-control input-xlarge input-with-feedback' %>
+  </div>
+  <%- unless selection_form.object.new_record? %>
+    <%= selection_form.check_box '_destroy' %>
+    <%= selection_form.label '_destroy', :caption => 'Remove' %>
+  <% end %>
+<% end %>
+</fieldset>
 
 <div class="form-actions">
   <%= f.submit pat(:save), :class => 'btn btn-primary' %>
