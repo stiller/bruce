@@ -28,6 +28,12 @@ Bruce::Admin.controllers :campaigns do
     @title = pat(:edit_title, :model => "campaign #{params[:id]}")
     @campaign = Campaign.find(params[:id])
     if @campaign
+      selections = @campaign.selections
+      Banner.all.each do |banner|
+        unless selections.find_by_banner_id(banner.id)
+          @campaign.banners << banner
+        end
+      end
       render 'campaigns/edit'
     else
       flash[:warning] = pat(:create_error, :model => 'campaign', :id => "#{params[:id]}")

@@ -32,22 +32,15 @@
 </fieldset>
 
 <fieldset>
-<%- f.fields_for :selections do |selection_form| %>
-  <div class='controls'>
-    <%= selection_form.label :banner, :class => 'control-label' %>
-    <%= selection_form.select :banner_id, collection: Banner.all, fields: [:url, :id], :class => 'form-control input-with-feedback' %>
-  </div>
-  <%= selection_form.label :weight, :class => 'control-label' %>
-  <div class='controls'>
-    <%= selection_form.text_field :weight, :class => 'form-control input-xlarge input-with-feedback' %>
-  </div>
-  <%- unless selection_form.object.new_record? %>
-    <%= selection_form.check_box '_destroy' %>
-    <%= selection_form.label '_destroy', :caption => 'Remove' %>
+  <% f.fields_for :selections do |s| %>
+    <%= s.label :banner, :class => 'control-label' %>
+    <div class='controls'>
+      <%= s.check_box :enabled %>
+      <%= image_tag s.object.banner.url, width: '35' %>
+      <%= s.text_field :weight %>
+    </div>
   <% end %>
-<% end %>
 </fieldset>
-<%= link_to_add_fields "Add Banner", f, :selections %>
 
 <div class="form-actions">
   <%= f.submit pat(:save), :class => 'btn btn-primary' %>
