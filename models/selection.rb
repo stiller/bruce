@@ -3,8 +3,4 @@ class Selection < ActiveRecord::Base
   belongs_to :banner
   accepts_nested_attributes_for :banner
   scope :enabled, -> { where(enabled: true) }
-
-  def ==(another_banner)
-    self.url == another_banner.url
-  end
 end
