@@ -25,7 +25,7 @@ module Bruce
         first_strategy  = strategy_class(campaign.strategy1).new(banners)
         second_strategy = strategy_class(campaign.strategy2).new(banners)
         listgen = ListGenerator.new(first_strategy, second_strategy, campaign.ratio1, campaign.ratio2)
-        listgen.pick(15)
+        listgen.pick(15).map(&:banner)
       end
       bannerlist.map {|banner| BannerFactory.build(banner) }
     end

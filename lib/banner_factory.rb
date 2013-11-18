@@ -3,7 +3,7 @@ class BannerFactory
     if config.respond_to? :url
       config
     else
-      Selection.new(config)
+      Banner.new(config)
     end
   end
 end
