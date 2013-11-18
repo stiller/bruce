@@ -2,10 +2,14 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_config.rb')
 
 describe 'The Bruce App' do
   before do
-    Banner.create(url: 'foo', weight: 1)
+    $redis.flushdb
+    campaign = Campaign.create(strategy1: 'random', strategy2: 'weighted', ratio1: 1, ratio2: 2)
+    campaign.banners << Banner.create(url: 'foo')
+    campaign.selections.first.update_attributes(enabled: true, weight: 1)
   end
 
   after do
+    Campaign.delete_all
     Banner.delete_all
   end
 
