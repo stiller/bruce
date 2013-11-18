@@ -20,13 +20,18 @@ module Bruce
 
     def banners
       bannerlist = $redis.cache(settings.banners_key, settings.expire_time) do
-        banners = Banner.all
-        first_strategy = Strategies::Random.new(banners)
-        second_strategy = Strategies::Weighted.new(banners)
-        listgen = ListGenerator.new(first_strategy, second_strategy, 3,7)
+        campaign = Campaign.first
+        banners = campaign.selections.enabled
+        first_strategy  = strategy_class(campaign.strategy1).new(banners)
+        second_strategy = strategy_class(campaign.strategy2).new(banners)
+        listgen = ListGenerator.new(first_strategy, second_strategy, campaign.ratio1, campaign.ratio2)
         listgen.pick(15)
       end
       bannerlist.map {|banner| BannerFactory.build(banner) }
+    end
+
+    def strategy_class klass
+      ("Strategies::" + klass.camelize).constantize
     end
 
     def request_key

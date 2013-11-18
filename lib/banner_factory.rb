@@ -1,9 +1,9 @@
 class BannerFactory
   def self.build config
-    if config.respond_to? :url, :weight
+    if config.respond_to? :url
       config
     else
-      Banner.new(config)
+      Selection.new(config)
     end
   end
 end
