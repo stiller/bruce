@@ -19,4 +19,16 @@ class RedisClient < Redis
   def save_for key, object
     set(key,object.to_json)
   end
+
+  def set key, value
+    super(PADRINO_ENV + key, value)
+  end
+
+  def expire key, expire
+    super(PADRINO_ENV + key, expire)
+  end
+
+  def get key
+    super(PADRINO_ENV + key)
+  end
 end
