@@ -43,5 +43,6 @@ It takes a list of something and an object and checks if the same object was
 previously returned. It then stores the returned object in Redis for the next
 call. This class currently only employs the `request.ip`, but could inlude any number of client attributes.
 
-The app can be administered from an admin interface at /admin.
+Banners are served at '/:campaign_id'. If no campaign is specified, the first
+one is used. The app can be administered from an admin interface at /admin.
 Run `rake ar:setup` on a local install to setup the database and provide admin credentials.

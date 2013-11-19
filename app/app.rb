@@ -8,19 +8,22 @@ module Bruce
 
     enable :sessions
 
-    get "/" do
+    get :index, :map => "/(:campaign_id)" do
       banner_hash = $redis.fetch_for(request_key)
       previous_banner = BannerFactory.build(banner_hash)
-      @banner = Frontend.new(banners).get_another_value_for(previous_banner)
+
+      frontend = Frontend.new(banners_for(params[:campaign_id]))
+      @banner = frontend.get_another_value_for(previous_banner)
+
       $redis.save_for(request_key, @banner)
       render :erb, "<img src='<%= @banner.url %>'>"
     end
 
     private
 
-    def banners
+    def banners_for id
       bannerlist = $redis.cache(settings.banners_key, settings.expire_time) do
-        campaign = Campaign.first
+        campaign = id ? Campaign.find(id) : Campaign.first
         banners = campaign.selections.enabled
         first_strategy  = strategy_class(campaign.strategy1).new(banners)
         second_strategy = strategy_class(campaign.strategy2).new(banners)
