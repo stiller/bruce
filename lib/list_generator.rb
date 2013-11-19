@@ -8,8 +8,8 @@ class ListGenerator
   end
 
   def pick number
-    mult = Float(number) / (@ratio_a + @ratio_b)
-    result = @gen_a.pick(10).sample((mult * @ratio_a).ceil)
-    result + @gen_b.pick(10).sample((mult * @ratio_b).floor)
+    divider = @ratio_a + @ratio_b
+    result = @gen_a.pick((Float(number) / divider * @ratio_a).round)
+    result + @gen_b.pick((Float(number) / divider * @ratio_b).round)
   end
 end
