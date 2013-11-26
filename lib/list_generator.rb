@@ -9,7 +9,7 @@ class ListGenerator
 
   def pick number
     divider = @ratio_a + @ratio_b
-    result = @gen_a.pick((Float(number) / divider * @ratio_a).round)
-    result + @gen_b.pick((Float(number) / divider * @ratio_b).round)
+    result = @gen_a.pick((Float(number) / divider * @ratio_a).ceil)
+    result + @gen_b.pick((Float(number) / divider * @ratio_b).floor)
   end
 end
